@@ -4,12 +4,6 @@
 ssh:
   public_key: ~/.ssh/id_ed25519.pub
 
-ansible:
-  playbook: site
-  roles:
-    - common
-    - docker
-
 vagrant:
   cpus: 4
   memory: 16384
