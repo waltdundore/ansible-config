@@ -1,0 +1,35 @@
+---
+# Development Environment Configuration
+
+ssh:
+  public_key: ~/.ssh/id_ed25519.pub
+
+ansible:
+  playbook: site
+  roles:
+    - common
+    - docker
+
+vagrant:
+  cpus: 4
+  memory: 16384
+  vms:
+    - name: fedora
+      box: bento/fedora-43
+      hostname: fedora-dev
+
+libvirt:
+  network_name: vagrant-libvirt-test
+  network_addr: 192.168.121.0/24
+  disk_size: 50
+
+common:
+  user: "{{ ansible_user }}"
+  packages:
+    - vim
+    - git
+    - htop
+
+docker:
+  users:
+    - "{{ ansible_user }}"
