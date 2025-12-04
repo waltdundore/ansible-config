@@ -1,0 +1,22 @@
+---
+# Production Environment Configuration
+
+ssh:
+  public_key: ~/.ssh/id_ed25519.pub
+
+ansible:
+  playbook: site
+  roles:
+    - common
+    - docker
+
+common:
+  user: "{{ ansible_user }}"
+  packages:
+    - vim
+    - git
+    - htop
+
+docker:
+  users:
+    - "{{ ansible_user }}"
