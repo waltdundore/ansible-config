@@ -1,73 +1,56 @@
 # ansible-config
 
-Central configuration file for ansible-control project.
+Configuration settings for ansible-control.
 
-## Repository Dependencies
+## Setup
 
-**This repository is part of a three-repository system:**
-
-1. **[ansible-control](https://github.com/waltdundore/ansible-control)** - Main playbooks and roles
-2. **[ansible-inventory](https://github.com/waltdundore/ansible-inventory)** - Environment-specific host definitions
-3. **THIS REPO** - Central configuration file
-
-### Setup
+Use ansible-control setup script:
 
 ```bash
-# Clone all three repositories
-cd ~/git
-git clone git@github.com:waltdundore/ansible-control.git
-git clone git@github.com:waltdundore/ansible-inventory.git
-git clone git@github.com:waltdundore/ansible-config.git
-
-# Create symlinks in ansible-control
-cd ansible-control
-ln -s ../ansible-inventory inventory
-ln -s ../ansible-config/config.yml config.yml
+cd ~/git/ansible-control
+./setup.sh
 ```
 
-## Configuration
+## Edit Configuration
 
-The `config.yml` file contains all project settings:
+```bash
+cd ~/git/ansible-config
+git checkout dev
+vim dev/config.yml
+```
 
-### Ansible Configuration
-- Playbook selection (docker, common, proxy, workstation)
+**Required:**
+```yaml
+ssh:
+  public_key: ~/.ssh/id_ed25519.pub  # Your SSH key path
+```
 
-### SSH Configuration
-- SSH public key path
+**Optional:**
+```yaml
+vagrant:
+  cpus: 4
+  memory: 16384
+  vms:
+    - name: fedora
+      box: bento/fedora-43
 
-### Vagrant Configuration
-- VM box selection
-- CPU and memory allocation
-- Multi-VM definitions
+common:
+  packages:
+    - vim
+    - git
 
-### Libvirt Configuration
-- Network settings
-- Disk size
+docker:
+  users:
+    - your_username
 
-### Role Configuration
-- Common role: packages to install/remove
-- Docker role: repository selection, user groups
-- NFS role: server, export, mount settings
-- Workstation role: packages, user groups, kernel modules
+nfs:
+  mounts:
+    - path: /mnt/storage
+      src: server:/export
+```
 
-## Branch Strategy
+## Branches
 
-All three repositories have matching branches:
-- `dev` - Development environment
-- `prod` - Production environment
-- `workstation` - Workstation setup
-
-**IMPORTANT:** Keep all three repos on the same branch when working.
-
-## Usage
-
-1. Edit `config.yml` with your settings
-2. Changes affect all environments
-3. Must be symlinked into ansible-control to function
-
-## Important Notes
-
-- This is the single source of truth for configuration
-- All role defaults reference this file
-- Changes here affect dev, prod, and workstation
-- Must be symlinked as `config.yml` in ansible-control root
+- `dev` - Development settings
+- `prod` - Production settings
+- `workstation` - Workstation settings
