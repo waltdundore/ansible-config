@@ -2,16 +2,13 @@
 
 Configuration settings for ansible-control.
 
+## Branch Structure
+
+- `dev` - Development settings
+- `prod` - Production settings
+- `workstation` - Workstation settings
+
 ## Setup
-
-Use ansible-control setup script:
-
-```bash
-cd ~/git/ansible-control
-./setup.sh
-```
-
-## Edit Configuration
 
 ```bash
 cd ~/git/ansible-config
@@ -19,38 +16,22 @@ git checkout dev
 vim dev/config.yml
 ```
 
-**Required:**
-```yaml
-ssh:
-  public_key: ~/.ssh/id_ed25519.pub  # Your SSH key path
+Update SSH key path and other settings.
+
+## Usage
+
+Link from ansible-control:
+
+```bash
+cd ~/git/ansible-control
+ln -s ../ansible-config/dev/config.yml config.yml
 ```
 
-**Optional:**
-```yaml
-vagrant:
-  cpus: 4
-  memory: 16384
-  vms:
-    - name: fedora
-      box: bento/fedora-43
+## Configuration Variables
 
-common:
-  packages:
-    - vim
-    - git
-
-docker:
-  users:
-    - your_username
-
-nfs:
-  mounts:
-    - path: /mnt/storage
-      src: server:/export
-```
-
-## Branches
-
-- `dev` - Development settings
-- `prod` - Production settings
-- `workstation` - Workstation settings
+- `ansible.playbook` - Playbook to run
+- `ansible.roles` - Roles to apply
+- `vagrant.vms` - VM definitions
+- `ssh.public_key` - SSH key path
+- `common.user` - System username
+- `docker.users` - Docker group members

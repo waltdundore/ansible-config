@@ -1,14 +1,5 @@
----
-# Development Environment Configuration
-
 ssh:
   public_key: ~/.ssh/id_ed25519.pub
-
-ansible:
-  playbook: site
-  roles:
-    - common
-    - docker
 
 vagrant:
   cpus: 4
