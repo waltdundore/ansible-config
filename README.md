@@ -1,73 +1,37 @@
 # ansible-config
 
-Central configuration file for ansible-control project.
+Configuration settings for ansible-control.
 
-## Repository Dependencies
+## Branch Structure
 
-**This repository is part of a three-repository system:**
+- `dev` - Development settings
+- `prod` - Production settings
+- `workstation` - Workstation settings
 
-1. **[ansible-control](https://github.com/waltdundore/ansible-control)** - Main playbooks and roles
-2. **[ansible-inventory](https://github.com/waltdundore/ansible-inventory)** - Environment-specific host definitions
-3. **THIS REPO** - Central configuration file
-
-### Setup
+## Setup
 
 ```bash
-# Clone all three repositories
-cd ~/git
-git clone git@github.com:waltdundore/ansible-control.git
-git clone git@github.com:waltdundore/ansible-inventory.git
-git clone git@github.com:waltdundore/ansible-config.git
-
-# Create symlinks in ansible-control
-cd ansible-control
-ln -s ../ansible-inventory inventory
-ln -s ../ansible-config/config.yml config.yml
+cd ~/git/ansible-config
+git checkout dev
+vim dev/config.yml
 ```
 
-## Configuration
-
-The `config.yml` file contains all project settings:
-
-### Ansible Configuration
-- Playbook selection (docker, common, proxy, workstation)
-
-### SSH Configuration
-- SSH public key path
-
-### Vagrant Configuration
-- VM box selection
-- CPU and memory allocation
-- Multi-VM definitions
-
-### Libvirt Configuration
-- Network settings
-- Disk size
-
-### Role Configuration
-- Common role: packages to install/remove
-- Docker role: repository selection, user groups
-- NFS role: server, export, mount settings
-- Workstation role: packages, user groups, kernel modules
-
-## Branch Strategy
-
-All three repositories have matching branches:
-- `dev` - Development environment
-- `prod` - Production environment
-- `workstation` - Workstation setup
-
-**IMPORTANT:** Keep all three repos on the same branch when working.
+Update SSH key path and other settings.
 
 ## Usage
 
-1. Edit `config.yml` with your settings
-2. Changes affect all environments
-3. Must be symlinked into ansible-control to function
+Link from ansible-control:
 
-## Important Notes
+```bash
+cd ~/git/ansible-control
+ln -s ../ansible-config/dev/config.yml config.yml
+```
 
-- This is the single source of truth for configuration
-- All role defaults reference this file
-- Changes here affect dev, prod, and workstation
-- Must be symlinked as `config.yml` in ansible-control root
+## Configuration Variables
+
+- `ansible.playbook` - Playbook to run
+- `ansible.roles` - Roles to apply
+- `vagrant.vms` - VM definitions
+- `ssh.public_key` - SSH key path
+- `common.user` - System username
+- `docker.users` - Docker group members
