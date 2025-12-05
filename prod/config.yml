@@ -1,0 +1,19 @@
+ssh:
+  public_key: ~/.ssh/id_ed25519.pub
+
+common:
+  user: "{{ ansible_user }}"
+  packages:
+    - vim
+    - git
+    - htop
+
+docker:
+  users:
+    - "{{ ansible_user }}"
+
+nfs:
+  mounts:
+    - path: /mnt/storage
+      src: storage.example.com:/export/data
+      opts: defaults

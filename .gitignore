@@ -1,0 +1,27 @@
+# ==============================================================================
+# Ansible Config - Git Ignore
+# ==============================================================================
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary Files
+*.tmp
+*.bak
+*.backup
+*.log
+
+# Secrets (if any accidentally placed here)
+*.pem
+*.key
+secrets.yml
+.env
+Makefile.dev

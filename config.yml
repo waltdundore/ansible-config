@@ -1,0 +1,88 @@
+# ==============================================================================
+# Ansible Control Configuration
+# ==============================================================================
+# Central configuration file for all project settings.
+# Edit values here instead of modifying code files.
+#
+# This is the PRIMARY configuration file - most settings are here.
+# You only need to edit inventory files for host-specific settings.
+
+# Ansible Configuration
+# ------------------------------------------------------------------------------
+ansible:
+  playbook: docker              # Default playbook: docker, common, or proxy
+
+# SSH Configuration
+# ------------------------------------------------------------------------------
+ssh:
+  public_key: ~/.ssh/id_ed25519.pub  # Path to your SSH public key
+
+# Vagrant Single VM Configuration
+# ------------------------------------------------------------------------------
+vagrant:
+  box: bento/fedora-43
+  cpus: 4
+  memory: 16384                 # Memory in MB (16GB)
+  
+# Vagrant Multi-VM Configuration
+# ------------------------------------------------------------------------------
+vagrant_multi:
+  cpus: 2
+  memory: 8192                  # Memory in MB (8GB)
+  vms:
+    - name: fedora
+      box: bento/fedora-43
+      hostname: fedora-test
+    - name: debian
+      box: koalephant/debian13
+      hostname: debian-test
+    # Add more VMs as needed:
+    # - name: ubuntu
+    #   box: bento/ubuntu-24.04
+    #   hostname: ubuntu-test
+
+# Libvirt Network (Linux/KVM only)
+# ------------------------------------------------------------------------------
+libvirt:
+  network_name: vagrant-libvirt-test
+  network_addr: 192.168.121.0/24
+  disk_size: 50                 # Virtual disk size in GB
+
+# Common Role Configuration
+# ------------------------------------------------------------------------------
+common:
+  # Packages to remove (unwanted default applications)
+  packages_to_remove:
+    - elisa          # KDE music player
+    - transmission   # BitTorrent client
+  
+  # Essential packages to install on all systems
+  packages_to_install:
+    - git
+    - htop
+    - iperf3
+    - rsync
+    - screen
+    - wget
+
+# Docker Role Configuration
+# ------------------------------------------------------------------------------
+docker:
+  # Use official Docker repo vs distribution repo (Debian only)
+  # false = Use Debian's docker.io (default, more stable)
+  # true  = Use Docker's official docker-ce (latest features)
+  use_official_repo: false
+  
+  # Users to add to docker group (allows docker without sudo)
+  users:
+    - vagrant        # Default Vagrant user
+    # Add your username here for real hosts
+
+# NFS Role Configuration
+# ------------------------------------------------------------------------------
+nfs:
+  server: storage.example.com   # NFS server hostname or IP
+  export: /volume1/nas          # Export path on NFS server
+  mountpoint: /nas              # Local mount directory
+  permissions: '0777'           # Mountpoint permissions (octal)
+  options: rw,sync              # NFS mount options
