@@ -25,3 +25,8 @@ Thumbs.db
 secrets.yml
 .env
 
+
+# Modules directory - track README but ignore module contents
+modules/*
+!modules/README.md
+!modules/.gitkeep
