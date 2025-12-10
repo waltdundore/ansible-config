@@ -1,0 +1,49 @@
+---
+# MySQL-specific variables
+mysql_version: "8.0"
+mysql_port: 3306
+mysql_datadir: "/var/lib/mysql"
+mysql_socket: "/var/lib/mysql/mysql.sock"
+mysql_pid_file: "/var/run/mysqld/mysqld.pid"
+mysql_log_error: "/var/log/mysql/error.log"
+
+# Root password (use ansible-vault in production)
+mysql_root_password: "{{ vault_mysql_root_password | default('changeme123!') }}"
+
+# Database and user creation
+mysql_databases: []
+mysql_users: []
+
+# Performance settings
+mysql_max_connections: 151
+mysql_innodb_buffer_pool_size: "128M"
+mysql_innodb_log_file_size: "64M"
+mysql_query_cache_size: "16M"
+mysql_query_cache_limit: "1M"
+mysql_thread_cache_size: 8
+mysql_table_open_cache: 2000
+
+# Security settings
+mysql_bind_address: "127.0.0.1"
+mysql_skip_networking: false
+mysql_validate_password: true
+mysql_remove_test_database: true
+mysql_remove_anonymous_users: true
+mysql_disallow_root_login_remotely: true
+
+# SSL settings
+mysql_ssl_enabled: true
+mysql_ssl_ca: "/etc/mysql/ssl/ca-cert.pem"
+mysql_ssl_cert: "/etc/mysql/ssl/server-cert.pem"
+mysql_ssl_key: "/etc/mysql/ssl/server-key.pem"
+
+# Logging
+mysql_slow_query_log: true
+mysql_slow_query_log_file: "/var/log/mysql/slow.log"
+mysql_long_query_time: 2
+mysql_log_queries_not_using_indexes: false
+
+# Firewall settings (extends common firewall_allowed_ports)
+firewall_allowed_ports:
+  - "{{ ssh_port }}/tcp"
+  - "{{ mysql_port }}/tcp"

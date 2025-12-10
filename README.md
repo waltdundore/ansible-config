@@ -1,38 +1,56 @@
-# Apache Configuration
+# MySQL Configuration
 
-Apache web server configuration for Ahab deployment.
+MySQL database server configuration for Ahab deployment.
 
 ## Variables
 
-See `apache-vars.yml` for all configurable options.
+See `mysql-vars.yml` for all configurable options.
 
 ### Key Variables
 
-- `apache_port`: HTTP port (default: 80)
-- `apache_ssl_port`: HTTPS port (default: 443)
-- `apache_document_root`: Web root directory
-- `ssl_enabled`: Enable SSL/TLS (default: true)
-- `apache_security_headers`: Enable security headers (default: true)
+- `mysql_port`: MySQL port (default: 3306)
+- `mysql_root_password`: Root password (use ansible-vault)
+- `mysql_bind_address`: Bind address (default: 127.0.0.1)
+- `mysql_ssl_enabled`: Enable SSL/TLS (default: true)
+- `mysql_validate_password`: Enable password validation (default: true)
 
 ## Templates
 
-- `apache.conf.template`: Main Apache configuration
-- Additional templates can be added for virtual hosts, etc.
+- `my.cnf.template`: Main MySQL configuration
 
 ## Security Features
 
-- Security headers (X-Frame-Options, X-XSS-Protection, etc.)
-- SSL/TLS with modern cipher suites
-- Server information hiding
-- TRACE method disabled
-- Directory traversal protection
+- Password validation policy
+- SSL/TLS encryption
+- Root login restrictions
+- Anonymous user removal
+- Test database removal
+
+## Performance Tuning
+
+- InnoDB buffer pool sizing
+- Query cache configuration
+- Connection limits
+- Thread cache optimization
 
 ## Usage
 
 ```bash
-# Switch to Apache configuration
-make config-apache
+# Switch to MySQL configuration
+make config-mysql
 
-# Deploy Apache
-make install-apache
+# Deploy MySQL
+make install-mysql
+```
+
+## Secrets Management
+
+Store sensitive data in ansible-vault:
+
+```bash
+# Create vault file
+ansible-vault create group_vars/all/vault.yml
+
+# Add MySQL root password
+vault_mysql_root_password: "your-secure-password"
 ```

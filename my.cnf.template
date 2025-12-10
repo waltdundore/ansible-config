@@ -1,0 +1,79 @@
+# MySQL Configuration Template
+[client]
+port = {{ mysql_port }}
+socket = {{ mysql_socket }}
+{% if mysql_ssl_enabled %}
+ssl-ca = {{ mysql_ssl_ca }}
+ssl-cert = {{ mysql_ssl_cert }}
+ssl-key = {{ mysql_ssl_key }}
+{% endif %}
+
+[mysqld]
+# Basic settings
+port = {{ mysql_port }}
+socket = {{ mysql_socket }}
+datadir = {{ mysql_datadir }}
+pid-file = {{ mysql_pid_file }}
+user = mysql
+
+# Network settings
+bind-address = {{ mysql_bind_address }}
+{% if mysql_skip_networking %}
+skip-networking
+{% endif %}
+
+# Performance settings
+max_connections = {{ mysql_max_connections }}
+thread_cache_size = {{ mysql_thread_cache_size }}
+table_open_cache = {{ mysql_table_open_cache }}
+
+# InnoDB settings
+innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
+innodb_log_file_size = {{ mysql_innodb_log_file_size }}
+innodb_flush_log_at_trx_commit = 1
+innodb_file_per_table = 1
+
+# Query cache
+query_cache_size = {{ mysql_query_cache_size }}
+query_cache_limit = {{ mysql_query_cache_limit }}
+query_cache_type = 1
+
+# Logging
+log-error = {{ mysql_log_error }}
+{% if mysql_slow_query_log %}
+slow_query_log = 1
+slow_query_log_file = {{ mysql_slow_query_log_file }}
+long_query_time = {{ mysql_long_query_time }}
+log_queries_not_using_indexes = {{ mysql_log_queries_not_using_indexes | lower }}
+{% endif %}
+
+# Security settings
+{% if mysql_validate_password %}
+validate_password.policy = MEDIUM
+validate_password.length = 8
+validate_password.mixed_case_count = 1
+validate_password.number_count = 1
+validate_password.special_char_count = 1
+{% endif %}
+
+# SSL settings
+{% if mysql_ssl_enabled %}
+ssl-ca = {{ mysql_ssl_ca }}
+ssl-cert = {{ mysql_ssl_cert }}
+ssl-key = {{ mysql_ssl_key }}
+ssl-cipher = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256
+tls_version = TLSv1.2,TLSv1.3
+{% endif %}
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+{% if mysql_ssl_enabled %}
+ssl-ca = {{ mysql_ssl_ca }}
+ssl-cert = {{ mysql_ssl_cert }}
+ssl-key = {{ mysql_ssl_key }}
+{% endif %}
