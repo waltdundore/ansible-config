@@ -1,0 +1,73 @@
+# Apache Main Configuration Template
+ServerRoot /etc/httpd
+PidFile /var/run/httpd/httpd.pid
+
+# Basic settings
+Listen {{ apache_port }}
+{% if ssl_enabled %}
+Listen {{ apache_ssl_port }} ssl
+{% endif %}
+
+ServerAdmin {{ apache_server_admin }}
+ServerName {{ apache_server_name }}
+
+# Security headers
+{% if apache_security_headers %}
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+{% if ssl_enabled %}
+Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+{% endif %}
+{% endif %}
+
+# Hide server information
+{% if apache_hide_version %}
+ServerTokens Prod
+ServerSignature Off
+{% endif %}
+
+# Disable TRACE method
+{% if apache_disable_trace %}
+TraceEnable Off
+{% endif %}
+
+# Performance settings
+MaxRequestWorkers {{ apache_max_request_workers }}
+ThreadsPerChild {{ apache_threads_per_child }}
+ServerLimit {{ apache_server_limit }}
+
+# Document root
+DocumentRoot {{ apache_document_root }}
+
+<Directory {{ apache_document_root }}>
+    Options -Indexes -FollowSymLinks
+    AllowOverride None
+    Require all granted
+    
+    # Security
+    <Files ".ht*">
+        Require all denied
+    </Files>
+</Directory>
+
+# SSL Configuration
+{% if ssl_enabled %}
+<IfModule mod_ssl.c>
+    SSLEngine on
+    SSLProtocol {{ ssl_protocols }}
+    SSLCipherSuite {{ ssl_ciphers }}
+    SSLHonorCipherOrder on
+    SSLCompression off
+    SSLSessionTickets off
+    
+    SSLCertificateFile {{ ssl_certificate_path }}
+    SSLCertificateKeyFile {{ ssl_private_key_path }}
+</IfModule>
+{% endif %}
+
+# Load modules
+{% for module in apache_modules %}
+LoadModule {{ module }}_module modules/{{ module }}.so
+{% endfor %}

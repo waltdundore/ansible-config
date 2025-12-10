@@ -1,29 +1,38 @@
-# Ahab Common Configuration
+# Apache Configuration
 
-This directory contains configuration files shared across all Ahab roles.
+Apache web server configuration for Ahab deployment.
 
-## Files
+## Variables
 
-- `ansible.cfg.base` - Base Ansible configuration
-- `common-vars.yml` - Variables used by all roles
-- `daemon.json.template` - Docker daemon configuration
-- `sudoers.d.ahab.template` - Sudo permissions for ahab user
+See `apache-vars.yml` for all configurable options.
+
+### Key Variables
+
+- `apache_port`: HTTP port (default: 80)
+- `apache_ssl_port`: HTTPS port (default: 443)
+- `apache_document_root`: Web root directory
+- `ssl_enabled`: Enable SSL/TLS (default: true)
+- `apache_security_headers`: Enable security headers (default: true)
+
+## Templates
+
+- `apache.conf.template`: Main Apache configuration
+- Additional templates can be added for virtual hosts, etc.
+
+## Security Features
+
+- Security headers (X-Frame-Options, X-XSS-Protection, etc.)
+- SSL/TLS with modern cipher suites
+- Server information hiding
+- TRACE method disabled
+- Directory traversal protection
 
 ## Usage
 
-These files are inherited by all role-specific branches. Role branches can:
-- Override variables in `common-vars.yml` by defining them in role-specific vars
-- Extend templates by including them in role-specific templates
-- Add additional configuration files as needed
+```bash
+# Switch to Apache configuration
+make config-apache
 
-## Modifying Common Configs
-
-1. Make changes on the `main` branch
-2. Merge changes into role branches as needed
-3. Test changes across all roles before deploying
-
-## Security
-
-- No secrets should be stored in these files
-- Use ansible-vault for sensitive data
-- All templates should follow security best practices
+# Deploy Apache
+make install-apache
+```
