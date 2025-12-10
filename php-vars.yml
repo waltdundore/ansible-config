@@ -1,0 +1,76 @@
+---
+# PHP-specific variables
+php_version: "8.1"
+php_memory_limit: "256M"
+php_max_execution_time: 30
+php_max_input_time: 60
+php_upload_max_filesize: "64M"
+php_post_max_size: "64M"
+php_max_file_uploads: 20
+
+# Security settings
+php_expose_php: false
+php_display_errors: false
+php_display_startup_errors: false
+php_log_errors: true
+php_error_log: "/var/log/php/error.log"
+php_allow_url_fopen: false
+php_allow_url_include: false
+
+# Session settings
+php_session_cookie_httponly: true
+php_session_cookie_secure: true
+php_session_use_strict_mode: true
+php_session_cookie_samesite: "Strict"
+php_session_save_path: "/var/lib/php/sessions"
+
+# OPcache settings
+php_opcache_enabled: true
+php_opcache_memory_consumption: 128
+php_opcache_interned_strings_buffer: 8
+php_opcache_max_accelerated_files: 4000
+php_opcache_validate_timestamps: false
+php_opcache_revalidate_freq: 2
+
+# Extensions to install
+php_extensions:
+  - php-cli
+  - php-fpm
+  - php-mysql
+  - php-pgsql
+  - php-curl
+  - php-gd
+  - php-mbstring
+  - php-xml
+  - php-zip
+  - php-json
+  - php-opcache
+  - php-bcmath
+  - php-intl
+
+# PHP-FPM settings
+php_fpm_pool_name: "www"
+php_fpm_pool_user: "apache"
+php_fpm_pool_group: "apache"
+php_fpm_listen: "/run/php-fpm/www.sock"
+php_fpm_listen_owner: "apache"
+php_fpm_listen_group: "apache"
+php_fpm_pm: "dynamic"
+php_fpm_pm_max_children: 50
+php_fpm_pm_start_servers: 5
+php_fpm_pm_min_spare_servers: 5
+php_fpm_pm_max_spare_servers: 35
+php_fpm_pm_max_requests: 500
+
+# Security hardening
+php_disable_functions:
+  - exec
+  - passthru
+  - shell_exec
+  - system
+  - proc_open
+  - popen
+  - curl_exec
+  - curl_multi_exec
+  - parse_ini_file
+  - show_source

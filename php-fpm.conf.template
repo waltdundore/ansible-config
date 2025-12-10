@@ -1,0 +1,39 @@
+; PHP-FPM Configuration Template
+
+[global]
+pid = /run/php-fpm/php-fpm.pid
+error_log = /var/log/php-fpm/error.log
+daemonize = yes
+
+[{{ php_fpm_pool_name }}]
+user = {{ php_fpm_pool_user }}
+group = {{ php_fpm_pool_group }}
+
+listen = {{ php_fpm_listen }}
+listen.owner = {{ php_fpm_listen_owner }}
+listen.group = {{ php_fpm_listen_group }}
+listen.mode = 0660
+
+pm = {{ php_fpm_pm }}
+pm.max_children = {{ php_fpm_pm_max_children }}
+pm.start_servers = {{ php_fpm_pm_start_servers }}
+pm.min_spare_servers = {{ php_fpm_pm_min_spare_servers }}
+pm.max_spare_servers = {{ php_fpm_pm_max_spare_servers }}
+pm.max_requests = {{ php_fpm_pm_max_requests }}
+
+; Security
+php_admin_value[disable_functions] = {{ php_disable_functions | join(',') }}
+php_admin_flag[allow_url_fopen] = {{ php_allow_url_fopen | lower }}
+php_admin_flag[allow_url_include] = {{ php_allow_url_include | lower }}
+
+; Logging
+access.log = /var/log/php-fpm/$pool.access.log
+slowlog = /var/log/php-fpm/$pool.slow.log
+request_slowlog_timeout = 10s
+
+; Environment variables
+env[HOSTNAME] = $HOSTNAME
+env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
