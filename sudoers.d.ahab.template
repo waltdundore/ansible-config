@@ -1,0 +1,7 @@
+# Ahab user sudo configuration
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl start docker
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl stop docker
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart docker
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl status docker
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/docker
+{{ ahab_user }} ALL=(ALL) NOPASSWD: /usr/bin/docker-compose

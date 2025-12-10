@@ -1,0 +1,32 @@
+---
+# Common variables for all roles
+ahab_user: ahab
+ahab_group: ahab
+security_hardening: true
+firewall_enabled: true
+selinux_enabled: true
+docker_enabled: true
+
+# Network settings
+network_interface: eth0
+dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+# Security settings
+ssh_port: 22
+fail2ban_enabled: true
+automatic_updates: true
+
+# Docker settings
+docker_compose_version: "2.21.0"
+docker_users:
+  - "{{ ahab_user }}"
+
+# Firewall settings
+firewall_allowed_ports:
+  - "{{ ssh_port }}/tcp"
+
+# SELinux settings
+selinux_policy: targeted
+selinux_state: enforcing
